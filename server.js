@@ -1,20 +1,27 @@
+require('dotenv').config();
 var express = require('express');
 var cors = require('cors');
-require('dotenv').config()
+const bodyParser = require('body-parser');
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' });
+
+const PORT = process.env.PORT || '8080';
 
 var app = express();
 
-app.use(cors());
-app.use('/public', express.static(process.cwd() + '/public'));
+app.use(cors({ optionsSuccessStatus: 200 }));
 
-app.get('/', function (req, res) {
-    res.sendFile(process.cwd() + '/views/index.html');
+app.use(bodyParser.json());
+app.use(express.static(__dirname + '/build'));
+
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/build/index.html');
 });
 
+app.post('/', upload.single('upfile'), function (req, res, next) {
+  return res.json(req.file);
+});
 
-
-
-const port = process.env.PORT || 3000;
-app.listen(port, function () {
-  console.log('Your app is listening on port ' + port)
+app.listen(PORT, function () {
+  console.log('Your app is listening on port ' + PORT);
 });
