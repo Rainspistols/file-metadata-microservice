@@ -19,7 +19,13 @@ app.get('/', (req, res) => {
 });
 
 app.post('/api/fileanalyse', upload.single('upfile'), function (req, res, next) {
-  return res.json(req.file);
+  const { originalname: name, mimetype: type, size } = req.file;
+
+  res.json({
+    name,
+    type,
+    size,
+  });
 });
 
 app.listen(PORT, function () {
