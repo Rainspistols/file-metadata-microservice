@@ -12,10 +12,11 @@ var app = express();
 app.use(cors({ optionsSuccessStatus: 200 }));
 
 app.use(bodyParser.json());
-app.use(express.static(__dirname + '/build'));
 
-app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/build/index.html');
+app.use('/public', express.static(process.cwd() + '/public'));
+
+app.get('/', function (req, res) {
+  res.sendFile(process.cwd() + '/views/index.html');
 });
 
 app.post('/api/fileanalyse', upload.single('upfile'), function (req, res, next) {
