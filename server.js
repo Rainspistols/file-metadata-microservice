@@ -18,7 +18,7 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/build/index.html');
 });
 
-app.post('/', upload.single('upfile'), function (req, res, next) {
+app.post('/api/fileanalyse', upload.single('upfile'), function (req, res, next) {
   return res.json(req.file);
 });
 
